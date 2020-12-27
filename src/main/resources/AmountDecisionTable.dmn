@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="AmountDecisionTable" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="4.4.0">
+  <decision id="Amount_Table" name="AmountTable">
+    <decisionTable id="DecisionTable_0i5bs4k">
+      <input id="Input_1" label="amount" biodi:width="192" camunda:inputVariable="amount">
+        <inputExpression id="InputExpression_1" typeRef="integer">
+          <text>amount</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="approver" name="approver" typeRef="string" />
+      <rule id="DecisionRule_1i3lhug">
+        <description>Gise Yetkilisi</description>
+        <inputEntry id="UnaryTests_1ql6ktq">
+          <text>&lt; 50</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0gwuij8">
+          <text>"GSY"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0huhuct">
+        <description>Sube Mudur</description>
+        <inputEntry id="UnaryTests_0btrqs5">
+          <text>[50 .. 100]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1tgbw91">
+          <text>"SBM"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_10drdmc">
+        <description>Operasasyon</description>
+        <inputEntry id="UnaryTests_1xazyyc">
+          <text>[101 .. 500]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1rtae96">
+          <text>"OP"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1lxuu2x">
+        <description>Genel Müdür Yardımcısı</description>
+        <inputEntry id="UnaryTests_1vncfmm">
+          <text>&gt;500</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0wz38fu">
+          <text>"GMY"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="Amount_Table">
+        <dc:Bounds height="80" width="180" x="160" y="80" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
