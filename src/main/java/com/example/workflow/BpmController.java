@@ -167,4 +167,13 @@ public class BpmController {
     }
 
 
+    public void test3(){
+        System.out.println("33333");
+    }
+
+
+    public void test4(){
+        System.out.println("4444444");
+    }
+
 }
