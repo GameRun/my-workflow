@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0vnifl0" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.4.0">
+  <bpmn:process id="rest_service_test" name="Rest service" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_0wzmmpt</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0wzmmpt" sourceRef="StartEvent_1" targetRef="Activity_1k59nk9" />
+    <bpmn:sequenceFlow id="Flow_1f163do" sourceRef="Activity_1k59nk9" targetRef="Activity_06mroyo" />
+    <bpmn:sequenceFlow id="Flow_00ratal" sourceRef="Activity_06mroyo" targetRef="Activity_1w5jjyr" />
+    <bpmn:endEvent id="Event_1iv3nip">
+      <bpmn:incoming>Flow_0a5txfy</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0a5txfy" sourceRef="Activity_1w5jjyr" targetRef="Event_1iv3nip" />
+    <bpmn:serviceTask id="Activity_1k59nk9" name="order_service" camunda:expression="#{callRestService.execution(&#34;http://localhost:8083/order/create&#34;,2,&#34;utku&#34;,&#34;defter&#34;)}">
+      <bpmn:incoming>Flow_0wzmmpt</bpmn:incoming>
+      <bpmn:outgoing>Flow_1f163do</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_06mroyo" name="payment service" camunda:expression="#{callRestService.execution(&#34;http://localhost:8082/order/create&#34;,3,&#34;30&#34;,&#34;defter&#34;)}">
+      <bpmn:incoming>Flow_1f163do</bpmn:incoming>
+      <bpmn:outgoing>Flow_00ratal</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_1w5jjyr" name="delivery service" camunda:expression="#{callRestService.execution(&#34;http://localhost:8081/order/create&#34;,1,&#34;istanbul&#34;,&#34;artvin&#34;)}">
+      <bpmn:incoming>Flow_00ratal</bpmn:incoming>
+      <bpmn:outgoing>Flow_0a5txfy</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="rest_service_test">
+      <bpmndi:BPMNEdge id="Flow_0a5txfy_di" bpmnElement="Flow_0a5txfy">
+        <di:waypoint x="690" y="120" />
+        <di:waypoint x="752" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_00ratal_di" bpmnElement="Flow_00ratal">
+        <di:waypoint x="530" y="120" />
+        <di:waypoint x="590" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1f163do_di" bpmnElement="Flow_1f163do">
+        <di:waypoint x="370" y="120" />
+        <di:waypoint x="430" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0wzmmpt_di" bpmnElement="Flow_0wzmmpt">
+        <di:waypoint x="215" y="120" />
+        <di:waypoint x="270" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1iv3nip_di" bpmnElement="Event_1iv3nip">
+        <dc:Bounds x="752" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_10804p0_di" bpmnElement="Activity_1k59nk9">
+        <dc:Bounds x="270" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1e63mg3_di" bpmnElement="Activity_06mroyo">
+        <dc:Bounds x="430" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_09l7dc1_di" bpmnElement="Activity_1w5jjyr">
+        <dc:Bounds x="590" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

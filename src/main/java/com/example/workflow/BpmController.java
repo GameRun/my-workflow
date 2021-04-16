@@ -10,6 +10,7 @@ import com.example.workflow.response.ProcessStartResponse;
 import com.example.workflow.response.TaskAssignResponse;
 import com.example.workflow.response.TaskCompleteResponse;
 import com.example.workflow.response.TaskListResponse;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngines;
 import org.camunda.bpm.engine.RuntimeService;
@@ -18,10 +19,7 @@ import org.camunda.bpm.engine.runtime.ProcessInstanceWithVariables;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.engine.task.TaskQuery;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -31,7 +29,14 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("bpm")
+@CrossOrigin(maxAge = 3600)
 public class BpmController {
+
+    @GetMapping("/greeting")
+    @ResponseBody
+    public String getRandomString(){
+        return  RandomStringUtils.random(10, true, true);
+    }
 
 
     @PostMapping(value = "/processStart", consumes = "application/json", produces = "application/json")
@@ -41,13 +46,15 @@ public class BpmController {
         ProcessStartResponse response = new ProcessStartResponse();
         try {
             ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
-
             RuntimeService runtimeService = processEngine.getRuntimeService();
 
             Map<String, Object> variables = new HashMap<>();
             variables.put("amount", request.getAmount());
             variables.put("assign", request.getAssignUser());
-            ProcessInstanceWithVariables createResponse = runtimeService.createProcessInstanceByKey(request.getProcessDefinitionKey()).setVariables(variables).executeWithVariablesInReturn();
+
+            ProcessInstanceWithVariables createResponse = runtimeService.createProcessInstanceByKey(request.getProcessDefinitionKey())
+                    .setVariables(variables).executeWithVariablesInReturn();
+
             response.setProcessInstanceId(createResponse.getProcessInstanceId());
             response.setId(createResponse.getId());
             response.setIslemSonuc("Basarili");
@@ -66,7 +73,6 @@ public class BpmController {
 
         try {
             response.setIslemSonuc("Basarılı");
-
             List<Task> taskList = createQueryCriteria(request).list();
             for (Task task : taskList) {
                 TaskInfo taskInfo = new TaskInfo();
@@ -81,7 +87,6 @@ public class BpmController {
 
                 response.getTaskInfoList().add(taskInfo);
             }
-
         } catch (Exception e) {
             response.setIslemSonuc("Basarisiz");
             response.setHataAciklama(e.toString());
@@ -103,7 +108,6 @@ public class BpmController {
 
             Map<String, Object> variables = new HashMap<>();
             variables.put("approve", request.getApprove());
-            variables.put("isApproved", request.getApprove());
 
             taskService.complete(request.getTaskId(), variables);
 
@@ -157,5 +161,7 @@ public class BpmController {
 
         return query;
     }
+
+
 
 }
