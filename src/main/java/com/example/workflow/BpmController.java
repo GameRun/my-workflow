@@ -162,6 +162,9 @@ public class BpmController {
         return query;
     }
 
+    public void test(){
+        System.out.println("111");
+    }
 
 
 }
